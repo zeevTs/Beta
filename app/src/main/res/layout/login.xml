@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".Activities.LogIn"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/LogTv"
+        android:layout_width="match_parent"
+        android:layout_height="120dp"
+        android:gravity="center"
+        android:text="log In"
+        android:textSize="50dp"
+        android:visibility="visible" />
+
+    <TextView
+        android:id="@+id/SignTv"
+        android:layout_width="match_parent"
+        android:layout_height="120dp"
+        android:gravity="center"
+        android:text="Sign Up"
+        android:textSize="50dp"
+        android:visibility="gone" />
+
+    <EditText
+        android:id="@+id/etEmail"
+        android:layout_width="360dp"
+        android:layout_height="70dp"
+        android:layout_gravity="center"
+        android:ems="10"
+        android:gravity="center"
+        android:hint="enter email"
+        android:textSize="25dp"
+        android:inputType="textEmailAddress" />
+
+    <EditText
+        android:id="@+id/etName"
+        android:layout_width="360dp"
+        android:layout_height="70dp"
+        android:layout_gravity="center"
+        android:ems="10"
+        android:hint="enter user name"
+        android:textSize="25dp"
+        android:gravity="center"
+        android:visibility="gone"
+        android:inputType="text" />
+    <EditText
+        android:id="@+id/etCity"
+        android:layout_width="360dp"
+        android:layout_height="70dp"
+        android:layout_gravity="center"
+        android:ems="10"
+        android:hint="enter your city"
+        android:textSize="25dp"
+        android:gravity="center"
+        android:visibility="gone"
+        android:inputType="text" />
+    <EditText
+        android:id="@+id/etPas"
+        android:layout_width="360dp"
+        android:layout_height="70dp"
+        android:layout_gravity="center"
+        android:ems="10"
+        android:gravity="center"
+        android:hint="enter password"
+        android:textSize="25dp"
+        android:inputType="text|textPassword" />
+    <Space
+        android:layout_width="match_parent"
+        android:layout_height="50dp" />
+    <Button
+        android:id="@+id/btnLog"
+        android:layout_width="255dp"
+        android:layout_height="72dp"
+        android:layout_gravity="center"
+        android:onClick="logIn"
+        android:text="Log In"
+        android:visibility="visible"/>
+    <Button
+        android:id="@+id/btnSign"
+        android:layout_width="255dp"
+        android:layout_height="72dp"
+        android:layout_gravity="center"
+        android:onClick="signUp"
+        android:text="Sign Up"
+        android:visibility="gone"/>
+    <Space
+        android:layout_width="match_parent"
+        android:layout_height="50dp" />
+    <TextView
+        android:id="@+id/LogClick"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="20dp"
+        android:text="if you don't have an account sign up"
+        android:clickable="true"
+        android:layout_gravity="center"
+        android:visibility="visible"
+        />
+    <TextView
+        android:id="@+id/SignClick"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="20dp"
+        android:text="if you have an account log in"
+        android:clickable="true"
+        android:layout_gravity="center"
+        android:visibility="gone"
+        />
+
+
+
+</LinearLayout>
