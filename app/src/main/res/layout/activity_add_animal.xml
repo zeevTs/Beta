@@ -6,12 +6,48 @@
 
     <TextView
         android:layout_width="match_parent"
-        android:layout_height="150dp"
+        android:layout_height="75dp"
         android:text="New pet"
         android:gravity="center"
         android:textSize="30dp"
         />
 
+    <ImageView
+        android:id="@+id/iV1"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:scaleType="fitXY">
+
+    </ImageView>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        >
+
+        <Button
+            android:layout_width="175dp"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:onClick="addGallery"
+            android:text="Add photo from gallery"
+            android:textSize="15dp" />
+
+        <Space
+            android:layout_width="50dp"
+            android:layout_height="match_parent"
+            >
+
+        </Space>
+        <Button
+            android:layout_width="175dp"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:onClick="addCamera"
+            android:text="Add photo from camera"
+            android:textSize="15dp" />
+
+
+    </LinearLayout>
     <EditText
         android:id="@+id/etName"
         android:layout_width="360dp"
@@ -43,21 +79,21 @@
         >
 
     </Spinner>
+
     <Space
         android:layout_width="match_parent"
-        android:layout_height="100dp"
+        android:layout_height="50dp"
         >
 
     </Space>
 
     <Button
-        android:layout_width="200dp"
+        android:id="@+id/btnAddPet"
+        android:layout_width="317dp"
         android:layout_height="60dp"
         android:layout_gravity="center"
-        android:textSize="20dp"
-        android:text="Add"
-        android:onClick="add"
-        />
+        android:text="Add Pet"
+        android:textSize="20dp" />
 
 
 

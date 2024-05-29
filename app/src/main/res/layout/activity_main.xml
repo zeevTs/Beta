@@ -25,6 +25,21 @@
         android:onClick="addPet"
         />
 
+    <Button
+        android:layout_width="200dp"
+        android:layout_height="60dp"
+        android:layout_gravity="center"
+        android:text="add Note"
+        android:onClick="addNote"
+         />
+    <Button
+        android:layout_width="200dp"
+        android:layout_height="60dp"
+        android:layout_gravity="center"
+        android:text="add Notification"
+        android:onClick="addNotification"
+        />
+
 
 
 </LinearLayout>

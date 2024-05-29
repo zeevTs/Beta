@@ -1,28 +1,30 @@
 package com.example.beta1.Objs;
 
-public class Notification {
+public class Notification extends Note {
+    private String repetitive;
+    private String timeStamp;
 
-    private String id;
-    private String notificationId;
+    public Notification(){}
 
-    public Notification(String id, String notificationId) {
-        this.id = id;
-        this.notificationId = notificationId;
+    public Notification(String title, String data, String animalId, String notId, String repetitive, String timeStamp) {
+        super(title, data, animalId, notId);
+        this.repetitive = repetitive;
+        this.timeStamp = timeStamp;
     }
 
-    public String getId() {
-        return id;
+    public String getRepetitive() {
+        return repetitive;
     }
 
-    public void setId(String id) {
-        this.id = id;
+    public void setRepetitive(String repetitive) {
+        this.repetitive = repetitive;
     }
 
-    public String getNotificationId() {
-        return notificationId;
+    public String getTimeStamp() {
+        return timeStamp;
     }
 
-    public void setNotificationId(String notificationId) {
-        this.notificationId = notificationId;
+    public void setTimeStamp(String timeStamp) {
+        this.timeStamp = timeStamp;
     }
 }

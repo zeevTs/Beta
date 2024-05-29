@@ -2,6 +2,13 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
+    <uses-feature
+        android:name="android.hardware.camera"
+        android:required="false" />
+
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
+
     <application
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
@@ -10,19 +17,30 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.Beta1"
+        android:theme="@style/Theme.AppCompat.DayNight.DarkActionBar"
         tools:targetApi="31">
+        <activity
+            android:name=".Activities.NotificationShow"
+            android:exported="false" />
+
+        <receiver
+            android:name=".Helpers.AlarmReceiver"
+            android:enabled="true"
+            android:exported="true" />
+
+        <activity
+            android:name=".Activities.NotificationActivity"
+            android:exported="false" />
+
+        <activity
+            android:name=".Activities.NoteActivity"
+            android:exported="false" />
+
         <activity
             android:name=".Activities.AddAnimal"
             android:exported="false" />
         <activity
-            android:name=".Activities.AddPet"
-            android:exported="false" />
-        <activity
             android:name=".Activities.Main"
-            android:exported="false" />
-        <activity
-            android:name=".SignUp"
             android:exported="false" />
         <activity
             android:name=".Activities.LogIn"

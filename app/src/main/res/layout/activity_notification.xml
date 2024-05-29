@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".Activities.NotificationActivity">
+    <TextView
+        android:id="@+id/notificattionTv"
+        android:layout_width="match_parent"
+        android:layout_height="120dp"
+        android:gravity="center"
+        android:text="choose time"
+        android:textSize="50dp"
+        android:visibility="visible" />
+
+    <Space
+        android:layout_width="match_parent"
+        android:layout_height="23dp"></Space>
+
+
+
+    <Button
+        android:layout_width="305dp"
+        android:layout_height="60dp"
+        android:onClick="setNotiDate"
+        android:text="set notification date"
+        android:textSize="20dp"
+        android:gravity="center"
+        android:layout_gravity="center">
+    </Button>
+
+
+    <Space
+        android:layout_width="match_parent"
+        android:layout_height="23dp"></Space>
+
+
+    <Button
+        android:layout_width="305dp"
+        android:layout_height="60dp"
+        android:onClick="setNotiTime"
+        android:textSize="20dp"
+        android:text="set Notification Time"
+        android:gravity="center"
+        android:layout_gravity="center">
+
+    </Button>
+
+    <CheckBox
+        android:id="@+id/cBrepetitive"
+        android:layout_width="138dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="right"
+        android:text="repetitive"
+        android:textSize="20dp" />
+
+    <LinearLayout
+        android:id="@+id/lnRep"
+        android:visibility="invisible"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:orientation="horizontal">
+
+        <Spinner
+            android:id="@+id/spRep"
+            android:layout_width="168dp"
+            android:layout_height="100dp"
+            />
+
+        <TextView
+            android:id="@+id/tvRep"
+            android:layout_width="100dp"
+            android:layout_height="86dp"
+            android:gravity="center"
+            android:text="0"
+            android:textSize="22dp"
+
+            />
+
+        <LinearLayout
+            android:layout_width="144dp"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <Space
+                android:layout_width="match_parent"
+                android:layout_height="24dp">
+
+            </Space>
+
+            <Button
+                android:layout_width="60dp"
+                android:layout_height="61dp"
+                android:layout_gravity="center"
+                android:background="@android:color/white"
+                android:onClick="plus"
+                android:text="+"
+                android:textColor="@android:color/black">
+
+            </Button>
+
+            <Space
+                android:layout_width="match_parent"
+                android:layout_height="23dp">
+
+            </Space>
+
+            <Button
+                android:layout_width="60dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:background="@android:color/holo_green_light"
+                android:onClick="minus"
+                android:text="-"
+                android:textColor="@android:color/black"
+                android:textSize="30dp">
+
+            </Button>
+        </LinearLayout>
+
+
+    </LinearLayout>
+
+    <Button
+        android:layout_width="305dp"
+        android:layout_height="60dp"
+        android:onClick="setNotification"
+        android:textSize="20dp"
+        android:text="setNotification"
+        android:gravity="center"
+        android:layout_gravity="center"
+        />
+
+
+
+</LinearLayout>

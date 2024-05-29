@@ -15,6 +15,9 @@ public class Animal
         this.url = url;
         this.age = age;
     }
+    public Animal(){
+
+    }
 
     public String getAnimalId() {
         return animalId;

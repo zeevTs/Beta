@@ -1,16 +1,29 @@
 package com.example.beta1.Activities;
 
+import static com.example.beta1.Activities.LogIn.user;
+
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ListView;
 
+import com.example.beta1.Helpers.AnimalAdapter;
+import com.example.beta1.Objs.Animal;
 import com.example.beta1.R;
 
-public class Main extends AppCompatActivity {
+import java.util.ArrayList;
 
+public class Main extends AppCompatActivity {
+    private ListView lvanimals;
+    private ArrayList<Animal> animalsList;
+    private AnimalAdapter animalAdapter;
+    private Intent toNote, toNotification;
+    
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -18,8 +31,34 @@ public class Main extends AppCompatActivity {
         initViews();
 
     }
-    private void initViews() {
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.main,menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        String title =item.getTitle().toString();
+        if(title.equals("Notifications")){
+            startActivity(new Intent(Main.this,NotificationShow.class));
+        }else if(title.equals("Notes")){
+            startActivity(new Intent(Main.this,NoteActivity.class));
+        }
+        return super.onOptionsItemSelected(item);
+    }
 
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        animalAdapter.notifyDataSetChanged();
+    }
+
+    private void initViews() {
+        lvanimals = findViewById(R.id.lVanimal);
+        animalsList = user.getAnimals();
+        animalAdapter = new AnimalAdapter(this,animalsList);
+        lvanimals.setAdapter(animalAdapter);
 
     }
 
@@ -29,4 +68,16 @@ public class Main extends AppCompatActivity {
     }
 
 
+    public void addNote(View view) {
+        toNote = new Intent(Main.this,NoteActivity.class);
+        toNote.putExtra("flag", true);
+        startActivity(toNote);
+
+    }
+
+    public void addNotification(View view) {
+        toNotification = new Intent(Main.this,NoteActivity.class);
+        toNotification.putExtra("flag", false);
+        startActivity(toNotification);
+    }
 }
