@@ -15,6 +15,11 @@
         android:title="Notes"
         android:orderInCategory="300"
         />
+    <item
+        android:id="@+id/menuForum"
+        android:title="Forum"
+        android:orderInCategory="300"
+        />
 
 
 

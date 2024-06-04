@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
-
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -7,9 +6,8 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Activities.NotificationShow"
-    android:orientation="vertical">
-
+    android:orientation="vertical"
+    tools:context=".Activities.ForumActivity">
     <androidx.cardview.widget.CardView
 
         android:layout_width="match_parent"
@@ -31,36 +29,33 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:gravity="center"
-                android:text="Notification List"
+                android:text="Forum"
                 android:textColor="@color/black"
                 android:textSize="30dp"
-                 />
-
-
+                />
 
         </LinearLayout>
 
     </androidx.cardview.widget.CardView>
     <Space
         android:layout_width="match_parent"
-        android:layout_height="50dp"/>
-    <ListView
-        android:id="@+id/lvNotifications"
-        android:layout_width="match_parent"
-        android:layout_height="200dp" />
+        android:layout_height="30dp"/>
 
+    <ListView
+        android:id="@+id/lvPosts"
+        android:layout_width="match_parent"
+        android:layout_height="337dp" />
     <Space
         android:layout_width="match_parent"
-        android:layout_height="20dp" />
-
+        android:layout_height="30dp"/>
     <Button
-        android:id="@+id/btnAddNote"
-        android:layout_width="145dp"
-        android:layout_height="77dp"
+        android:layout_width="271dp"
+        android:layout_height="61dp"
         android:layout_gravity="center"
-        android:background="#8692f7"
-        android:onClick="addNotification"
-        android:textSize="15dp"
-        android:text="Add\n notification" />
+        android:textSize="22sp"
+        android:text="Add Post"
+        android:onClick="addPost"
+        />
+
 
 </LinearLayout>

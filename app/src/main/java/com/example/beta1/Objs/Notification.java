@@ -3,6 +3,8 @@ package com.example.beta1.Objs;
 public class Notification extends Note {
     private String repetitive;
     private String timeStamp;
+    private int arq;
+
 
     public Notification(){}
 
@@ -10,6 +12,15 @@ public class Notification extends Note {
         super(title, data, animalId, notId);
         this.repetitive = repetitive;
         this.timeStamp = timeStamp;
+        this.arq=-1;
+    }
+
+    public int getArq() {
+        return arq;
+    }
+
+    public void setArq(int arq) {
+        this.arq = arq;
     }
 
     public String getRepetitive() {

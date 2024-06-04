@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_marginStart="12dp"
+    android:layout_marginEnd="12dp"
+    android:layout_marginVertical="10dp"
+    android:layout_marginHorizontal="10dp"
+    app:cardCornerRadius="20dp"
+    app:cardElevation="8dp"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <RelativeLayout
+        android:id="@+id/rlPost"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+
+        <TextView
+            android:id="@+id/tvPostTitle"
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:gravity="center"
+
+            android:text="Title"
+            android:textColor="#8692f7"
+            android:textSize="25sp" />
+
+        <TextView
+            android:id="@+id/tvPostUserName"
+            android:layout_width="120dp"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/tvPostTitle"
+            android:layout_alignParentStart="true"
+            android:gravity="center"
+            android:text="name"
+            android:textColor="#8692f7"
+            android:textSize="16sp" />
+
+        <TextView
+            android:id="@+id/tvPostText"
+            android:layout_width="200dp"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/tvPostUserName"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentEnd="true"
+            android:maxLines="4"
+            android:text="aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+            android:textColor="#8692f7"
+            android:textSize="20sp" />
+
+        <TextView
+            android:id="@+id/tvPostTime"
+            android:layout_width="250dp"
+            android:layout_height="30dp"
+            android:layout_below="@id/tvPostText"
+            android:layout_alignParentEnd="true"
+            android:gravity="center"
+            android:text="12-05-2024"
+            android:textColor="#8692f7"
+            android:textSize="20sp" />
+
+    </RelativeLayout>
+
+
+</androidx.cardview.widget.CardView>

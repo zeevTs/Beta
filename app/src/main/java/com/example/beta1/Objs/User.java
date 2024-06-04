@@ -70,5 +70,14 @@ public class User {
         this.city = city;
     }
 
+    // returns animals by key id if there is animal with the given id it returns the first animal
+    public Animal getAnimal(String animalId){
+        for (int i=0;i<animals.size();i++){
+            if(animals.get(i).getAnimalId().equals(animalId)){
+                return animals.get(i);
+            }
+        }
+        return animals.get(0);
+    }
 
 }

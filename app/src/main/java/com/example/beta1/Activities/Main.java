@@ -42,7 +42,9 @@ public class Main extends AppCompatActivity {
         if(title.equals("Notifications")){
             startActivity(new Intent(Main.this,NotificationShow.class));
         }else if(title.equals("Notes")){
-            startActivity(new Intent(Main.this,NoteActivity.class));
+            startActivity(new Intent(Main.this,NoteShow.class));
+        } else if (title.equals("Forum")) {
+            startActivity(new Intent(Main.this,ForumActivity.class));
         }
         return super.onOptionsItemSelected(item);
     }
@@ -68,16 +70,7 @@ public class Main extends AppCompatActivity {
     }
 
 
-    public void addNote(View view) {
-        toNote = new Intent(Main.this,NoteActivity.class);
-        toNote.putExtra("flag", true);
-        startActivity(toNote);
 
-    }
 
-    public void addNotification(View view) {
-        toNotification = new Intent(Main.this,NoteActivity.class);
-        toNotification.putExtra("flag", false);
-        startActivity(toNotification);
-    }
+
 }

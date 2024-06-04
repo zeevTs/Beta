@@ -2,31 +2,29 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".Activities.Main">
+    tools:context=".Activities.NoteShow">
 
     <ListView
-        android:id="@+id/lVanimal"
-        android:layout_width="match_parent"
-        android:layout_height="200dp" />
+    android:id="@+id/lvNotes"
+    android:layout_width="match_parent"
+    android:layout_height="200dp" />
 
     <Space
         android:layout_width="match_parent"
-        android:layout_height="100dp" />
+        android:layout_height="200dp" />
 
     <Button
-        android:id="@+id/btnAdd"
-        android:layout_width="140dp"
-        android:layout_height="60dp"
+        android:id="@+id/btnAddNote"
+        android:layout_width="202dp"
+        android:layout_height="79dp"
         android:layout_gravity="center"
         android:background="#8692f7"
-        android:onClick="addPet"
-        android:text="Add Pet" />
-
-
-
-
+        android:onClick="addNote"
+        android:textSize="20dp"
+        android:text="Add Note" />
 
 </LinearLayout>

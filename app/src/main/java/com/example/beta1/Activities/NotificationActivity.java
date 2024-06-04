@@ -2,6 +2,7 @@ package com.example.beta1.Activities;
 
 import static com.example.beta1.Activities.LogIn.user;
 import static com.example.beta1.Helpers.FBRefs.refUsers;
+import static com.example.beta1.Helpers.Utilities.db2Dsiplay;
 
 import android.app.AlarmManager;
 import android.app.DatePickerDialog;
@@ -28,6 +29,7 @@ import com.example.beta1.Helpers.AlarmReceiver;
 import com.example.beta1.Objs.Notification;
 import com.example.beta1.R;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 
@@ -158,15 +160,17 @@ public class NotificationActivity extends AppCompatActivity {
         String animalID = getIntent().getExtras().getString("AnimalId","");
         String notiId = getIntent().getExtras().getString("NotiId","");
         rep= rep.substring(0,pos)+ value + rep.substring(pos+1);
-        String timeStamp = ""+calSet.getTime();
+        SimpleDateFormat sdfTime = new SimpleDateFormat("yyyyMMddhhmm");
+        String timeStamp = sdfTime.format(calSet.getTime());
         Notification notification = new Notification(title,data,animalID,notiId,rep,timeStamp);
+        ALARM_RQST_CODE++;
+        notification.setArq(ALARM_RQST_CODE);
         ArrayList<Notification> notifications= user.getNotifications();
         notifications.add(notification);
         user.setNotifications(notifications);
         refUsers.child(user.getuId()).setValue(user);
 
         if(rep.equals("0000")){
-            ALARM_RQST_CODE++;
             Intent intent = new Intent(this, AlarmReceiver.class);
             intent.putExtra("msg",data);
             intent.putExtra("title",title);
@@ -177,14 +181,16 @@ public class NotificationActivity extends AppCompatActivity {
                     calSet.getTimeInMillis(), alarmIntent);
 
         }else {
-            ALARM_RQST_CODE++;
             Intent intent = new Intent(this, AlarmReceiver.class);
             alarmIntent = PendingIntent.getBroadcast(this,
                     ALARM_RQST_CODE, intent, PendingIntent.FLAG_IMMUTABLE);
             alarmMgr = (AlarmManager) this.getSystemService(Context.ALARM_SERVICE);
             alarmMgr.setRepeating(AlarmManager.RTC_WAKEUP,calSet.getTimeInMillis(), (rep.charAt(3)-48)*1000*60*60 + (rep.charAt(2)-48)*1000*60*60*24 + (rep.charAt(1)-48)*1000*60*60*24*7 + (rep.charAt(0)-48)*1000*60*60*24*30 , alarmIntent);
         }
-        Toast.makeText(this, "Alarm in " + String.valueOf(calSet.getTime()), Toast.LENGTH_SHORT).show();
+
+
+
+        Toast.makeText(this, "Alarm in " + db2Dsiplay(sdfTime.format(calSet.getTime())), Toast.LENGTH_SHORT).show();
         setResult(RESULT_OK,gI);
         finish();
     }

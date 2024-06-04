@@ -6,11 +6,10 @@
 
     <TextView
         android:layout_width="match_parent"
-        android:layout_height="75dp"
-        android:text="New pet"
+        android:layout_height="65dp"
         android:gravity="center"
-        android:textSize="30dp"
-        />
+        android:text="New pet"
+        android:textSize="30dp" />
 
     <ImageView
         android:id="@+id/iV1"
@@ -82,15 +81,14 @@
 
     <Space
         android:layout_width="match_parent"
-        android:layout_height="50dp"
-        >
+        android:layout_height="35dp">
 
     </Space>
 
     <Button
         android:id="@+id/btnAddPet"
         android:layout_width="317dp"
-        android:layout_height="60dp"
+        android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:text="Add Pet"
         android:textSize="20dp" />

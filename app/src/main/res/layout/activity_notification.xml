@@ -59,16 +59,15 @@
 
     <LinearLayout
         android:id="@+id/lnRep"
-        android:visibility="invisible"
         android:layout_width="match_parent"
-        android:layout_height="200dp"
-        android:orientation="horizontal">
+        android:layout_height="188dp"
+        android:orientation="horizontal"
+        android:visibility="invisible">
 
         <Spinner
             android:id="@+id/spRep"
             android:layout_width="168dp"
-            android:layout_height="100dp"
-            />
+            android:layout_height="100dp" />
 
         <TextView
             android:id="@+id/tvRep"

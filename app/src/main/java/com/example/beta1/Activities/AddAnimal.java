@@ -7,6 +7,7 @@ import static com.example.beta1.Helpers.FBRefs.refUsers;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -22,7 +23,10 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 
+import android.Manifest;
 import com.example.beta1.Objs.Animal;
 import com.example.beta1.R;
 import com.google.android.gms.tasks.Continuation;
@@ -37,6 +41,7 @@ import com.google.firebase.storage.UploadTask;
 import java.util.ArrayList;
 
 public class AddAnimal extends AppCompatActivity {
+    private Intent iCamera;
     private String url= "";
     private UploadTask uploadTask;
     private ImageView iV1;
@@ -179,6 +184,31 @@ public class AddAnimal extends AppCompatActivity {
             imageUri = data.getData();
             iV1.setImageURI(imageUri);
         }
+    }
+    private void askCamPer() {
+        if(ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED){
+            ActivityCompat.requestPermissions(this, new String[] {Manifest.permission.CAMERA},CAMERA_PERMISSION_CODE);
+
+        }else{
+            openCam();
+        }
+    }
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if(requestCode == CAMERA_PERMISSION_CODE){
+            if(grantResults.length<0 && grantResults[0] == PackageManager.PERMISSION_GRANTED){
+                openCam();
+            }else{
+                Toast.makeText(this, "Camera Permission is Required to Use camera ", Toast.LENGTH_SHORT).show();
+            }
+        }
+    }
+
+
+    private void openCam() {
+        iCamera = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        startActivityForResult(iCamera,CAMERA_REQUEST_CODE);
     }
 
 }
