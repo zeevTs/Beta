@@ -10,6 +10,8 @@ import android.app.PendingIntent;
 import android.app.TimePickerDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
+import android.net.ConnectivityManager;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
@@ -26,6 +28,7 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.beta1.Helpers.AlarmReceiver;
+import com.example.beta1.Helpers.NetworkStateReceiver;
 import com.example.beta1.Objs.Notification;
 import com.example.beta1.R;
 
@@ -51,6 +54,11 @@ public class NotificationActivity extends AppCompatActivity {
         setContentView(R.layout.activity_notification);
         initViews();
 
+        // sends internet state to NetworkStateReceiver class
+        NetworkStateReceiver networkStateReceiver = new NetworkStateReceiver();
+        IntentFilter connectFilter = new IntentFilter();
+        connectFilter.addAction(ConnectivityManager.CONNECTIVITY_ACTION);
+        registerReceiver(networkStateReceiver, connectFilter);
     }
 
     private void initViews() {
@@ -159,6 +167,7 @@ public class NotificationActivity extends AppCompatActivity {
         String title = getIntent().getExtras().getString("Title","");
         String animalID = getIntent().getExtras().getString("AnimalId","");
         String notiId = getIntent().getExtras().getString("NotiId","");
+
         rep= rep.substring(0,pos)+ value + rep.substring(pos+1);
         SimpleDateFormat sdfTime = new SimpleDateFormat("yyyyMMddhhmm");
         String timeStamp = sdfTime.format(calSet.getTime());
@@ -175,7 +184,7 @@ public class NotificationActivity extends AppCompatActivity {
             intent.putExtra("msg",data);
             intent.putExtra("title",title);
             alarmIntent = PendingIntent.getBroadcast(this,
-                    ALARM_RQST_CODE, intent, PendingIntent.FLAG_IMMUTABLE);
+                    ALARM_RQST_CODE, intent, PendingIntent.FLAG_UPDATE_CURRENT);
             alarmMgr = (AlarmManager) this.getSystemService(Context.ALARM_SERVICE);
             alarmMgr.set(AlarmManager.RTC_WAKEUP,
                     calSet.getTimeInMillis(), alarmIntent);
@@ -205,11 +214,11 @@ public class NotificationActivity extends AppCompatActivity {
     }
 
     public void minus(View view) {
-         if(value>0) {
+         if(value>1) {
              value--;
              tvRep.setText("" + value);
          }else{
-             Toast.makeText(this, "the min amount is 0", Toast.LENGTH_SHORT).show();
+             Toast.makeText(this, "the min amount is 1", Toast.LENGTH_SHORT).show();
          }
     }
 }

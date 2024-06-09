@@ -7,6 +7,8 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.content.IntentFilter;
+import android.net.ConnectivityManager;
 import android.os.Bundle;
 import android.text.SpannableString;
 import android.text.Spanned;
@@ -18,6 +20,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.beta1.Helpers.NetworkStateReceiver;
 import com.example.beta1.Objs.Animal;
 import com.example.beta1.Objs.Note;
 import com.example.beta1.Objs.Notification;
@@ -54,6 +57,10 @@ public class LogIn extends AppCompatActivity {
                 btnSign.setVisibility(View.VISIBLE);
                 logClick.setVisibility(View.GONE);
                 signClick.setVisibility(View.VISIBLE);
+                etCity.setText("");
+                etEmail.setText("");
+                etPas.setText("");
+                etName.setText("");
             }
         };
         ss.setSpan(cS,29,36,  Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
@@ -72,11 +79,19 @@ public class LogIn extends AppCompatActivity {
                 btnLog.setVisibility(View.VISIBLE);
                 signClick.setVisibility(View.GONE);
                 logClick.setVisibility(View.VISIBLE);
+                etEmail.setText("");
+                etPas.setText("");
             }
         };
         ss2.setSpan(cS2,23,29,  Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
         signClick.setText(ss2);
         signClick.setMovementMethod(LinkMovementMethod.getInstance());
+
+        // sends internet state to NetworkStateReceiver class
+        NetworkStateReceiver networkStateReceiver = new NetworkStateReceiver();
+        IntentFilter connectFilter = new IntentFilter();
+        connectFilter.addAction(ConnectivityManager.CONNECTIVITY_ACTION);
+        registerReceiver(networkStateReceiver, connectFilter);
     }
 
     @Override
@@ -92,6 +107,7 @@ public class LogIn extends AppCompatActivity {
 //        if(user.getNotifications() == null){
 //            user.setNotifications(new ArrayList<Notification>());
 //        }
+
     }
 
     private void initViews() {
@@ -111,97 +127,85 @@ public class LogIn extends AppCompatActivity {
     public void logIn(View view) {
         String email = etEmail.getText().toString();
         String password = etPas.getText().toString();
+        if(email.equals("") || password.equals("")){
+            Toast.makeText(this, "need to enter all data fields", Toast.LENGTH_SHORT).show();
+        }else {
+            refAuth.signInWithEmailAndPassword(email, password)
+                    .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+                        @Override
+                        public void onComplete(@NonNull Task<AuthResult> task) {
+                            if (task.isSuccessful()) {
+                                Toast.makeText(LogIn.this, "Logged in successfully ", Toast.LENGTH_SHORT).show();
+                                String userId = refAuth.getCurrentUser().getUid();
+                                refUsers.child(userId).get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
+                                    @Override
+                                    public void onComplete(@NonNull Task<DataSnapshot> task) {
+                                        if (task.isSuccessful()) {
+                                            DataSnapshot dS = task.getResult();
 
-        refAuth.signInWithEmailAndPassword(email, password)
-                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
-                        if(task.isSuccessful()){
-                            Toast.makeText(LogIn.this, "Logged in successfully ", Toast.LENGTH_SHORT).show();
-                            String userId = refAuth.getCurrentUser().getUid();
-                            refUsers.child(userId).get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
-                                @Override
-                                public void onComplete(@NonNull Task<DataSnapshot> task) {
-                                    if(task.isSuccessful()){
-                                        DataSnapshot dS = task.getResult();
+                                            user = dS.getValue(User.class);
 
-                                        user = dS.getValue(User.class);
-
-                                        if(user.getAnimals() == null){
-                                            user.setAnimals(new ArrayList<Animal>());
+                                            if (user.getAnimals() == null) {
+                                                user.setAnimals(new ArrayList<Animal>());
+                                            }
+                                            if (user.getNotes() == null) {
+                                                user.setNotes(new ArrayList<Note>());
+                                            }
+                                            if (user.getNotifications() == null) {
+                                                user.setNotifications(new ArrayList<Notification>());
+                                            }
+                                            Intent si = new Intent(LogIn.this, Main.class);
+                                            startActivity(si);
                                         }
-                                        if(user.getNotes() == null){
-                                            user.setNotes(new ArrayList<Note>());
-                                        }
-                                        if(user.getNotifications() == null){
-                                            user.setNotifications(new ArrayList<Notification>());
-                                        }
-                                        Intent si = new Intent(LogIn.this,Main.class);
-                                        startActivity(si);
                                     }
-                                }
-                            });
-//                            Query query = refUsers.orderByChild("uId").equalTo(userId).limitToFirst(1);
-//                              Query query = refUsers;
-//
-//                            query.get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
-//                                @Override
-//                                public void onComplete(@NonNull Task<DataSnapshot> task) {
-//                                    if (task.isSuccessful()) {
-//                                        DataSnapshot dS = task.getResult();
-//                                        for (DataSnapshot data : dS.getChildren()) {
-//                                            if(data.getValue(User.class).getuId().equals(userId)) {
-//                                                user = data.getValue(User.class);
-//                                            }
-//                                        }
-//                                        if(user.getAnimals() == null){
-//                                            user.setAnimals(new ArrayList<Animal>());
-//                                        }
-//                                        if(user.getNotes() == null){
-//                                            user.setNotes(new ArrayList<Note>());
-//                                        }
-//                                        if(user.getNotifications() == null){
-//                                            user.setNotifications(new ArrayList<Notification>());
-//                                        }
-//                                        Intent si = new Intent(LogIn.this,Main.class);
-//                                        startActivity(si);
-//                                    }
-//                                }
-//                            });
-
-                        }else{
-                            Toast.makeText(LogIn.this, "Log in failed", Toast.LENGTH_SHORT).show();
+                                });
+                         } else {
+                                Toast.makeText(LogIn.this, "Log in failed", Toast.LENGTH_SHORT).show();
                         }
                     }
-                });
-
+            });
+        }
     }
 
     public void signUp(View view) {
+
         String email = etEmail.getText().toString();
         String password = etPas.getText().toString();
         String name = etName.getText().toString();
         String city = etCity.getText().toString();
-        refAuth.createUserWithEmailAndPassword(email, password)
-                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
-                        if(task.isSuccessful()){
-                            FirebaseUser userFB = refAuth.getCurrentUser();
-                            String uid = userFB.getUid();
-                            user = new User(uid, name, city);
-                            refUsers.child(uid).setValue(user);
-                            Toast.makeText(LogIn.this, "user created successfully ", Toast.LENGTH_SHORT).show();
-                            Intent si = new Intent(LogIn.this,Main.class);
-                            startActivity(si);
-                        }else{
-                            if(task.getException() instanceof FirebaseAuthUserCollisionException){
-                                Toast.makeText(LogIn.this, "email is already used", Toast.LENGTH_SHORT).show();
-                            }else{
-                                Toast.makeText(LogIn.this, "user creation failed", Toast.LENGTH_SHORT).show();
+        if(email.equals("")|| password.equals("")||city.equals("")||name.equals("")){
+            Toast.makeText(this, "need to enter all data fields", Toast.LENGTH_SHORT).show();
+        }else {
+            refAuth.createUserWithEmailAndPassword(email, password)
+                    .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+                        @Override
+                        public void onComplete(@NonNull Task<AuthResult> task) {
+                            if (task.isSuccessful()) {
+                                FirebaseUser userFB = refAuth.getCurrentUser();
+                                String uid = userFB.getUid();
+                                user = new User(uid, name, city);
+                                refUsers.child(uid).setValue(user);
+                                Toast.makeText(LogIn.this, "user created successfully ", Toast.LENGTH_SHORT).show();
+                                Intent si = new Intent(LogIn.this, Main.class);
+                                startActivity(si);
+                            } else {
+                                if (task.getException() instanceof FirebaseAuthUserCollisionException) {
+                                    Toast.makeText(LogIn.this, "email is already used", Toast.LENGTH_SHORT).show();
+                                } else {
+                                    Toast.makeText(LogIn.this, "user creation failed", Toast.LENGTH_SHORT).show();
+                                }
                             }
                         }
-                    }
-                });
+                    });
+        }
     }
+
+
+
+
+
+
+
+
+
 }

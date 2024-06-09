@@ -61,13 +61,7 @@ public class NotificationAdapter extends BaseAdapter {
             notifyDataSetChanged();
             }
         });
-        ImageButton btnEdit = view.findViewById(R.id.btnEdit);
-        btnEdit.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
 
-            }
-        });
         LinearLayout lvAnimal = view.findViewById(R.id.llNotification);
         TextView tvTitle = view.findViewById(R.id.tvTitle);
         TextView tvAnimalName = view.findViewById(R.id.tvAnimalName);
@@ -78,13 +72,40 @@ public class NotificationAdapter extends BaseAdapter {
         tvAnimalName.setText(user.getAnimal(notificationAnimalID).getName());
         tvTitle.setText(notificationList.get(position).getTitle());
         tvTime.setText(db2Dsiplay(notificationList.get(position).getTimeStamp()));
+        String rep =  notificationList.get(position).getRepetitive();
         if(notificationList.get(position).getRepetitive().equals("0000")) {
             tvRepeatition.setText("rep: none");
-        }else{
-            tvRepeatition.setText("rep: "+ notificationList.get(position).getRepetitive());
-        }
 
-        return view;
+            // there is repetitive alarm;
+        }else {
+            if (! (rep.charAt(0) == '0') ) {
+                if (rep.charAt(0) == '1') {
+                    tvRepeatition.setText("rep: " + "every " + rep.charAt(0) + " Hour");
+                } else {
+                    tvRepeatition.setText("rep: " + "every " + rep.charAt(0) + " Hours");
+                }
+            }else if(! (rep.charAt(1) == '0')){
+                if (rep.charAt(1) == '1') {
+                    tvRepeatition.setText("rep: " + "every " + rep.charAt(1) + " Days");
+                } else {
+                    tvRepeatition.setText("rep: " + "every " + rep.charAt(1) + " days");
+                }
+            } else if  (! (rep.charAt(2) == '0')){
+                if (rep.charAt(2) == '1') {
+                    tvRepeatition.setText("rep: " + "every " + rep.charAt(2) + " Week");
+                } else {
+                    tvRepeatition.setText("rep: " + "every " + rep.charAt(2) + " weeks");
+                }
+            } else if (! (rep.charAt(3) == '0')) {
+                if (rep.charAt(3) == '1') {
+                    tvRepeatition.setText("rep: " + "every " + rep.charAt(3) + " Month");
+                } else {
+                    tvRepeatition.setText("rep: " + "every " + rep.charAt(3) + " Months");
+                }
+            }
+
+        }
+            return view;
     }
     public void cancelAlarm(int arq) {
         Intent intent = new Intent(context, AlarmReceiver.class);

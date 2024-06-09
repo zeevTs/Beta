@@ -4,6 +4,8 @@ import static com.example.beta1.Activities.LogIn.user;
 import static com.example.beta1.Helpers.FBRefs.refUsers;
 
 import android.content.Intent;
+import android.content.IntentFilter;
+import android.net.ConnectivityManager;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
@@ -18,6 +20,7 @@ import android.widget.Toast;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.beta1.Helpers.NetworkStateReceiver;
 import com.example.beta1.Objs.Animal;
 import com.example.beta1.Objs.Note;
 import com.example.beta1.R;
@@ -45,13 +48,20 @@ public class NoteActivity extends AppCompatActivity {
         initViews();
         if (!flag) {
             bNoti.setText("Choose notification time:");
+            notiTv.setText("Add Notification");
+
         }
+        // sends internet state to NetworkStateReceiver class
+        NetworkStateReceiver networkStateReceiver = new NetworkStateReceiver();
+        IntentFilter connectFilter = new IntentFilter();
+        connectFilter.addAction(ConnectivityManager.CONNECTIVITY_ACTION);
+        registerReceiver(networkStateReceiver, connectFilter);
     }
 
     private void initViews() {
         eTdata = findViewById(R.id.etData);
         etTitle = findViewById(R.id.etTitle);
-        notiTv = findViewById(R.id.etName);
+        notiTv = findViewById(R.id.notiTv);
         spAnimals = findViewById(R.id.spAnimals);
         toMain = new Intent(this,Main.class);
         bNoti = findViewById(R.id.bNoti);

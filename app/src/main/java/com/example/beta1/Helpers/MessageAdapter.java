@@ -1,6 +1,8 @@
 package com.example.beta1.Helpers;
 
 import static com.example.beta1.Activities.LogIn.user;
+import static com.example.beta1.Helpers.FBRefs.refForum;
+import static com.example.beta1.Helpers.FBRefs.refUsers;
 import static com.example.beta1.Helpers.Utilities.db2Dsiplay;
 
 import android.content.Context;
@@ -8,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.ImageButton;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -51,6 +54,19 @@ public class MessageAdapter extends BaseAdapter {
         TextView tvPostTitle = view.findViewById(R.id.tvPostTitle);
         TextView tvPostText = view.findViewById(R.id.tvPostText);
         TextView tvPostTime = view.findViewById(R.id.tvPostTime);
+        ImageButton btnDelete = view.findViewById(R.id.btnDelete);
+        if(!user.getuId().equals(messageList.get(position).getUserId())){
+            btnDelete.setVisibility(View.GONE);
+        }else {
+            btnDelete.setVisibility(View.VISIBLE);
+            btnDelete.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    refForum.child(messageList.get(position).getMsgId()).removeValue();
+                }
+            });
+        }
+
         TextView tvPostUserName = view.findViewById(R.id.tvPostUserName);
         tvPostTitle.setText(messageList.get(position).getTitle());
         tvPostText.setText(messageList.get(position).getData());

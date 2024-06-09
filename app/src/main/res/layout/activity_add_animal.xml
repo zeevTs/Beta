@@ -6,7 +6,7 @@
 
     <TextView
         android:layout_width="match_parent"
-        android:layout_height="65dp"
+        android:layout_height="wrap_content"
         android:gravity="center"
         android:text="New pet"
         android:textSize="30dp" />
@@ -47,28 +47,28 @@
 
 
     </LinearLayout>
+
     <EditText
         android:id="@+id/etName"
         android:layout_width="360dp"
-        android:layout_height="75dp"
+        android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:ems="10"
-        android:hint="enter pet's name"
-        android:textSize="25dp"
         android:gravity="center"
+        android:hint="enter pet's name"
         android:inputType="text"
-        />
+        android:textSize="25dp" />
+
     <EditText
         android:id="@+id/etAge"
         android:layout_width="360dp"
-        android:layout_height="75dp"
+        android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:ems="10"
-        android:hint="enter pet's age"
-        android:textSize="25dp"
         android:gravity="center"
+        android:hint="enter pet's age"
         android:inputType="numberDecimal"
-        />
+        android:textSize="25dp" />
     <Spinner
         android:id="@+id/sP"
         android:layout_width="360dp"
@@ -81,7 +81,7 @@
 
     <Space
         android:layout_width="match_parent"
-        android:layout_height="35dp">
+        android:layout_height="21dp">
 
     </Space>
 

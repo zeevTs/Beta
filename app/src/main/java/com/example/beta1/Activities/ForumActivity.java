@@ -3,7 +3,12 @@ package com.example.beta1.Activities;
 import static com.example.beta1.Activities.LogIn.user;
 import static com.example.beta1.Helpers.FBRefs.refForum;
 
+import android.content.Intent;
+import android.content.IntentFilter;
+import android.net.ConnectivityManager;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ListView;
 
@@ -17,6 +22,7 @@ import androidx.core.view.WindowInsetsCompat;
 import androidx.fragment.app.DialogFragment;
 
 import com.example.beta1.Helpers.MessageAdapter;
+import com.example.beta1.Helpers.NetworkStateReceiver;
 import com.example.beta1.Helpers.NoteAdapter;
 import com.example.beta1.Objs.Message;
 import com.example.beta1.Objs.Note;
@@ -52,7 +58,17 @@ public class ForumActivity extends AppCompatActivity {
 
             @Override
             public void onChildRemoved(@NonNull DataSnapshot snapshot) {
-
+                Message msg = snapshot.getValue(Message.class);
+                int pos = -1;
+                for (int i=0; i< messagesList.size();i++){
+                    if(messagesList.get(i).getMsgId().equals(msg.getMsgId())){
+                        pos=i;
+                    }
+                }
+                if( pos!=-1) {
+                    messagesList.remove(pos);
+                    messageAdapter.notifyDataSetChanged();
+                }
             }
 
             @Override
@@ -67,6 +83,11 @@ public class ForumActivity extends AppCompatActivity {
 
         };
         refForum.addChildEventListener(cel);
+        // sends internet state to NetworkStateReceiver class
+        NetworkStateReceiver networkStateReceiver = new NetworkStateReceiver();
+        IntentFilter connectFilter = new IntentFilter();
+        connectFilter.addAction(ConnectivityManager.CONNECTIVITY_ACTION);
+        registerReceiver(networkStateReceiver, connectFilter);
     }
 
     @Override
@@ -85,5 +106,24 @@ public class ForumActivity extends AppCompatActivity {
     public void addPost(View view) {
         DialogFragment addPostDialogFragment = new AddPostDialogFragment();
         addPostDialogFragment.show(getSupportFragmentManager(), "add post");
+    }
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.main,menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        String title =item.getTitle().toString();
+        if(title.equals("Notifications")){
+            startActivity(new Intent(ForumActivity.this,NotificationShow.class));
+        }else if(title.equals("Notes")){
+            startActivity(new Intent(ForumActivity.this,NoteShow.class));
+        } else if (title.equals("Main")) {
+            startActivity(new Intent(ForumActivity.this,Main.class));
+        } else if (title.equals("Profile")) {
+            startActivity(new Intent(ForumActivity.this,ProfileActivity.class));
+        }
+        return super.onOptionsItemSelected(item);
     }
 }

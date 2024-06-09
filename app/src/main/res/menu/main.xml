@@ -20,6 +20,11 @@
         android:title="Forum"
         android:orderInCategory="300"
         />
+    <item
+        android:id="@+id/menuProfile"
+        android:title="Profile"
+        android:orderInCategory="400"
+        />
 
 
 

@@ -7,6 +7,8 @@ import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
+import android.net.ConnectivityManager;
 import android.os.Bundle;
 import android.view.ContextMenu;
 import android.view.Menu;
@@ -21,6 +23,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.beta1.Helpers.AlarmReceiver;
 import com.example.beta1.Helpers.AnimalAdapter;
+import com.example.beta1.Helpers.NetworkStateReceiver;
 import com.example.beta1.Helpers.NotificationAdapter;
 import com.example.beta1.Objs.Animal;
 import com.example.beta1.Objs.Notification;
@@ -40,6 +43,11 @@ public class NotificationShow extends AppCompatActivity  {
         setContentView(R.layout.activity_notification_show);
         initViews();
 
+        // sends internet state to NetworkStateReceiver class
+        NetworkStateReceiver networkStateReceiver = new NetworkStateReceiver();
+        IntentFilter connectFilter = new IntentFilter();
+        connectFilter.addAction(ConnectivityManager.CONNECTIVITY_ACTION);
+        registerReceiver(networkStateReceiver, connectFilter);
     }
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -53,6 +61,10 @@ public class NotificationShow extends AppCompatActivity  {
             startActivity(new Intent(NotificationShow.this,Main.class));
         }else if(title.equals("Notes")){
             startActivity(new Intent(NotificationShow.this,NoteShow.class));
+        }else if (title.equals("Forum")) {
+            startActivity(new Intent(NotificationShow.this,ForumActivity.class));
+        }else if (title.equals("Profile")) {
+            startActivity(new Intent(NotificationShow.this,ProfileActivity.class));
         }
         return super.onOptionsItemSelected(item);
     }

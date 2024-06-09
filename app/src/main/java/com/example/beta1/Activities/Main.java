@@ -6,6 +6,8 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.content.IntentFilter;
+import android.net.ConnectivityManager;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -13,6 +15,7 @@ import android.view.View;
 import android.widget.ListView;
 
 import com.example.beta1.Helpers.AnimalAdapter;
+import com.example.beta1.Helpers.NetworkStateReceiver;
 import com.example.beta1.Objs.Animal;
 import com.example.beta1.R;
 
@@ -30,6 +33,11 @@ public class Main extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         initViews();
 
+        // sends internet state to NetworkStateReceiver class
+        NetworkStateReceiver networkStateReceiver = new NetworkStateReceiver();
+        IntentFilter connectFilter = new IntentFilter();
+        connectFilter.addAction(ConnectivityManager.CONNECTIVITY_ACTION);
+        registerReceiver(networkStateReceiver, connectFilter);
     }
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -45,6 +53,8 @@ public class Main extends AppCompatActivity {
             startActivity(new Intent(Main.this,NoteShow.class));
         } else if (title.equals("Forum")) {
             startActivity(new Intent(Main.this,ForumActivity.class));
+        }else if (title.equals("Profile")) {
+            startActivity(new Intent(Main.this,ProfileActivity.class));
         }
         return super.onOptionsItemSelected(item);
     }

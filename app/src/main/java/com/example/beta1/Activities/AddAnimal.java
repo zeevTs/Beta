@@ -7,7 +7,11 @@ import static com.example.beta1.Helpers.FBRefs.refUsers;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
+import android.graphics.Camera;
+import android.net.ConnectivityManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -27,10 +31,14 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
 import android.Manifest;
+
+import com.example.beta1.Helpers.NetworkStateReceiver;
 import com.example.beta1.Objs.Animal;
 import com.example.beta1.R;
 import com.google.android.gms.tasks.Continuation;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.FirebaseDatabase;
@@ -38,12 +46,16 @@ import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
+import java.io.ByteArrayOutputStream;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.Locale;
 
 public class AddAnimal extends AppCompatActivity {
     private Intent iCamera;
     private String url= "";
-    private UploadTask uploadTask;
+    private UploadTask uploadTask,uploadTask2;
     private ImageView iV1;
     private final int GALLERY_REQ_CODE= 1000;
     private final int CAMERA_PERMISSION_CODE = 100;
@@ -59,7 +71,9 @@ public class AddAnimal extends AppCompatActivity {
     private int kind = -1;
     private Intent iAddAnimal;
     private Button btnAddPet;
-//    private Intent iCamera;
+    private Bitmap bitmap;
+    private boolean flag;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -87,9 +101,19 @@ public class AddAnimal extends AppCompatActivity {
         btnAddPet.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                upload();
+                if (flag) {
+                    upload();
+                }else {
+                    upload2();
+                }
             }
         });
+
+        // sends internet state to NetworkStateReceiver class
+        NetworkStateReceiver networkStateReceiver = new NetworkStateReceiver();
+        IntentFilter connectFilter = new IntentFilter();
+        connectFilter.addAction(ConnectivityManager.CONNECTIVITY_ACTION);
+        registerReceiver(networkStateReceiver, connectFilter);
     }
 
     private void initViews() {
@@ -174,15 +198,62 @@ public class AddAnimal extends AppCompatActivity {
         });
 
     }
+    public void upload2(){
+        final String animalId2 = FirebaseDatabase.getInstance().getReference().push().getKey();
+        prog =new ProgressDialog(this);
+        prog.setTitle("uploading file....");
+        prog.show();
+        String userFile2 = user.getuId();
+        StorageReference refImage = refImg.child(userFile2).child(animalId2 + ".jpg");
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
+        byte[] data = baos.toByteArray();
+        uploadTask2 = refImage.putBytes(data);
+        Task<Uri> uriTask =uploadTask2.continueWithTask(new Continuation<UploadTask.TaskSnapshot, Task<Uri>>() {
+            @Override
+            public Task<Uri> then(@NonNull Task<UploadTask.TaskSnapshot> task) throws Exception {
+                if(!task.isSuccessful()){
+                    throw task.getException();
+                }
+                return refImage.getDownloadUrl();
+            }
+        }).addOnCompleteListener(new OnCompleteListener<Uri>() {
+            @Override
+            public void onComplete(@NonNull Task<Uri> task) {
+                if (task.isSuccessful()){
+                    Uri downloadUri =(Uri) task.getResult();
+                    url = downloadUri.toString();
+                    prog.dismiss();
+                    add(animalId2);
+                }else{
+                    prog.dismiss();
+                    Toast.makeText(AddAnimal.this, "upload failed", Toast.LENGTH_SHORT).show();
+                    finish();
+                }
+
+            }
+        });
+    }
+    public void addCamera(View view){
+
+        askCamPer();
+
+    }
 
     public void addGallery(View view){
         startActivityForResult(iAddAnimal,GALLERY_REQ_CODE);
     }
     protected void onActivityResult(int requestCode, int resultCode,Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if(resultCode == RESULT_OK && data!=null && requestCode == GALLERY_REQ_CODE){
+        if(resultCode == RESULT_OK && data!=null && requestCode == CAMERA_REQUEST_CODE){
+            bitmap = (Bitmap) data.getExtras().get("data");
+            iV1.setImageBitmap(bitmap);
+            flag = false;
+        }
+        else if(resultCode == RESULT_OK && data!=null && requestCode == GALLERY_REQ_CODE){
             imageUri = data.getData();
             iV1.setImageURI(imageUri);
+            flag = true;
         }
     }
     private void askCamPer() {
